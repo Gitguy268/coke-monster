@@ -8,6 +8,10 @@ An unofficial, fictional product landing page, built as a design study in one HT
 
 > **This is not a real product and not an official page.** Coca-Cola and Monster are trademarks of their owners. This project is not affiliated with, endorsed by or sponsored by either company. The product, its claims and its specifications are invented.
 
+<!-- live-links -->
+**Live:** [gitguy268.github.io/coke-monster](https://gitguy268.github.io/coke-monster/) · [coke-monster.vercel.app](https://coke-monster.vercel.app)
+<!-- /live-links -->
+
 <!-- run-steps:start -->
 ## Run it locally, step by step
 
