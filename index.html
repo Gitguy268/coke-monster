@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coca-Cola × Monster — Zero Ultra Energy</title>
+<meta name="description" content="Coca-Cola meets Monster Ultra: zero sugar, 150mg caffeine, limited collaboration.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Grand+Hotel&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0b0d; --ink:#ececed; --muted:#9a9ca3; --silver:#b9bcc3;
+  --red:#f40009; --green:#84c318;
+  --glass:rgba(255,255,255,.06); --glass-2:rgba(255,255,255,.09); --line:rgba(255,255,255,.12);
+  --shadow:0 12px 32px rgba(0,0,0,.35);
+  --r-panel:24px; --r-card:16px;
+  --display:"Anton","Oswald",Impact,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --wrap:1200px; --gutter:20px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--ink);font:400 17px/1.6 var(--body);
+  background:
+    radial-gradient(1100px 560px at 90% -8%, rgba(244,0,9,.07), transparent 62%),
+    radial-gradient(900px 520px at -10% 38%, rgba(132,195,24,.04), transparent 62%),
+    var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+body.modal-open{overflow:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:400}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* glass */
+.glass{
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid var(--line);box-shadow:var(--shadow);
+}
+
+/* type */
+.display{font-family:var(--display);text-transform:uppercase;letter-spacing:.005em;line-height:.95}
+h2.display{font-size:clamp(40px,5.6vw,72px)}
+.lead{color:#c9cbd0;max-width:58ch}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;font-size:14px;font-weight:500;color:var(--silver)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red)}
+.eyebrow.g::before{background:var(--green)}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:48px;padding:0 24px;border-radius:999px;border:1px solid transparent;
+  font-weight:600;font-size:16px;text-decoration:none;white-space:nowrap;
+  transition:transform .2s ease, background-color .2s ease, border-color .2s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#ff1a22}
+.btn-ghost{background:var(--glass);border-color:var(--line);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.btn-ghost:hover{background:var(--glass-2);border-color:rgba(255,255,255,.22)}
+.btn-sm{min-height:40px;padding:0 18px;font-size:15px}
+.btn-block{width:100%}
+
+/* image placeholders: grey box + label; a real src covers the label */
+.frame{padding:8px;border-radius:var(--r-panel)}
+.ph{position:relative;margin:0;border-radius:var(--r-card);overflow:hidden;background:#1a1c21}
+.ph::before{content:"Image";position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:500;color:#6d7078}
+.ph img{position:relative;width:100%;height:100%;object-fit:cover}
+
+/* wordmark */
+.wm{display:inline-flex;align-items:center;gap:10px;text-decoration:none;line-height:1}
+.wm-coke{font-family:"Grand Hotel",cursive;color:var(--red);font-size:30px;transform:rotate(-4deg);display:inline-block;padding-bottom:2px}
+.wm-x{color:var(--silver);opacity:.7;font-size:15px}
+.wm-mon{display:inline-flex;align-items:flex-end;font-family:var(--display);text-transform:uppercase;font-size:24px;letter-spacing:-.01em;color:#f2f2f3}
+.wm-mon svg{width:20px;height:25px;margin-right:1px;fill:var(--green);filter:drop-shadow(0 0 5px rgba(132,195,24,.45))}
+
+/* nav */
+.nav-shell{position:sticky;top:12px;z-index:50;padding:0 12px;margin-top:12px}
+.nav{max-width:calc(var(--wrap) - 2*var(--gutter) + 24px);margin:0 auto;display:flex;align-items:center;gap:24px;padding:10px 12px 10px 20px;border-radius:var(--r-panel);background:rgba(18,19,22,.55)}
+.nav-links{display:flex;gap:26px;margin-left:auto;list-style:none;padding:0;margin-top:0;margin-bottom:0}
+.nav-links a{text-decoration:none;font-size:15px;font-weight:500;color:#c9cbd0;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.burger{display:none;margin-left:auto;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--glass);place-items:center}
+.burger span,.burger span::before,.burger span::after{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;position:relative;transition:transform .2s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+.drawer{max-width:calc(var(--wrap) - 2*var(--gutter) + 24px);margin:8px auto 0;padding:12px;border-radius:var(--r-panel);background:rgba(18,19,22,.82)}
+.drawer a:not(.btn){display:block;padding:12px 10px;text-decoration:none;font-weight:500;border-bottom:1px solid rgba(255,255,255,.06)}
+.drawer .btn{margin-top:12px}
+@media (max-width:860px){
+  .nav-links,.nav .nav-cta{display:none}
+  .burger{display:grid}
+}
+@media (min-width:861px){.drawer{display:none}}
+
+/* sections */
+.section{padding:112px 0}
+.section-head{max-width:720px;margin-bottom:48px}
+.section-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.section-head .lead{margin-top:18px}
+.section-head.center .lead{margin-left:auto;margin-right:auto}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+
+/* hero */
+.hero{padding:72px 0 88px}
+.hero .split{grid-template-columns:1.12fr .88fr}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:14px;font-weight:500;color:#d8dadf}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
+.hero h1{margin:26px 0 24px;font-size:clamp(60px,9.4vw,136px);line-height:.9}
+.hero h1 .tint{display:block;color:#cfe3a8}
+.hero .lead{font-size:19px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0;padding:0;list-style:none}
+.chips li{padding:6px 12px;border-radius:999px;border:1px solid var(--line);font-size:14px;color:#c9cbd0}
+.hero .ph{aspect-ratio:4/5}
+
+/* stat strip */
+.stats{padding:40px 32px;border-radius:var(--r-panel);text-align:center}
+.stats > p{color:var(--silver);font-weight:500}
+.stats dl{display:grid;grid-template-columns:repeat(3,1fr);margin:28px 0 0}
+.stat{padding:4px 16px}
+.stat + .stat{border-left:1px solid var(--line)}
+.stat dd{margin:0;font-family:var(--display);font-size:clamp(40px,5vw,60px);line-height:1;font-variant-numeric:tabular-nums}
+.stat dt{margin-top:8px;color:var(--muted);font-size:15px}
+.stat{display:flex;flex-direction:column-reverse}
+
+/* story */
+.story .split{align-items:start}
+.features{display:grid;gap:14px;margin-top:40px}
+.card{padding:24px;border-radius:var(--r-card);transition:transform .25s ease,border-color .25s ease}
+.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.2)}
+.card h3{font-weight:600;font-size:19px;margin-bottom:6px}
+.card p{color:#b7bac1;font-size:16px}
+.story .frame{position:sticky;top:104px}
+.story .ph{aspect-ratio:4/5}
+
+/* product */
+.product .ph{aspect-ratio:4/5}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:32px 0}
+.spec{padding:20px;border-radius:var(--r-card)}
+.spec dt{color:var(--muted);font-size:14px;font-weight:500}
+.spec dd{margin:4px 0 0;font-family:var(--display);font-size:26px;letter-spacing:.01em}
+.momentum{margin-top:112px;display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+.momentum h3{font-size:clamp(34px,4.2vw,54px)}
+.momentum .lead{margin-top:18px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:64px 1fr;gap:8px;padding:24px 0;border-top:1px solid var(--line)}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--display);font-size:28px;color:var(--green);line-height:1.1}
+.steps h4{margin:0 0 4px;font-size:19px;font-weight:600}
+.steps p{color:#b7bac1;font-size:16px}
+
+/* reviews */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.review{display:flex;flex-direction:column;gap:20px;padding:28px}
+.stars{color:var(--green);letter-spacing:3px;font-size:16px}
+.review blockquote{margin:0;font-size:17px;line-height:1.6;color:#dcdee2;flex:1}
+.who{display:flex;align-items:center;gap:12px}
+.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:15px;background:rgba(255,255,255,.08);border:1px solid var(--line)}
+.who b{display:block;font-weight:600;font-size:15px}
+.who span{color:var(--muted);font-size:14px}
+
+/* packs */
+.packs .grid3{align-items:stretch}
+.pack{position:relative;display:flex;flex-direction:column;padding:32px 28px;border-radius:var(--r-panel)}
+.pack.featured{top:-12px;background:rgba(255,255,255,.085);border-color:rgba(244,0,9,.45)}
+.tag{position:absolute;top:-13px;left:28px;padding:4px 12px;border-radius:999px;background:var(--red);color:#fff;font-size:13px;font-weight:600}
+.pack h3{font-size:20px;font-weight:600}
+.price{margin:14px 0 8px;display:flex;align-items:baseline;gap:8px}
+.price b{font-family:var(--display);font-weight:400;font-size:48px;line-height:1}
+.price span{color:var(--muted);font-size:15px}
+.pack > p{color:#b7bac1;font-size:16px}
+.pack ul{list-style:none;padding:0;margin:24px 0 28px;display:grid;gap:10px;flex:1}
+.pack li{display:flex;gap:10px;font-size:15px;color:#d4d6da}
+.pack li::before{content:"✓";color:var(--green);font-weight:700}
+
+/* faq */
+.faq .split{grid-template-columns:.8fr 1.2fr;align-items:start}
+.qa{border-bottom:1px solid var(--line)}
+.qa:first-child{border-top:1px solid var(--line)}
+.qa h3{font-size:inherit}
+.qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:22px 4px;background:none;border:0;text-align:left;font-size:18px;font-weight:600}
+.qa button::after{content:"+";flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);font-weight:400;font-size:20px;line-height:1;transition:background-color .2s}
+.qa button[aria-expanded="true"]::after{content:"−";background:var(--glass-2)}
+.qa .ans{padding:0 56px 24px 4px;color:#b7bac1}
+
+/* video */
+.video-frame{position:relative;aspect-ratio:16/9;border-radius:var(--r-panel);padding:8px}
+.video-frame video{width:100%;height:100%;border-radius:var(--r-card);background:#000;display:block}
+.play{position:absolute;inset:8px;padding:0;border:0;border-radius:var(--r-card);overflow:hidden;background:none}
+.play .ph{position:absolute;inset:0}
+.play-btn{position:absolute;left:50%;top:50%;translate:-50% -50%;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;transition:transform .2s ease}
+.play-btn::before{content:"";margin-left:6px;border-style:solid;border-width:13px 0 13px 21px;border-color:transparent transparent transparent #fff}
+.play:hover .play-btn{transform:scale(1.06)}
+
+/* final cta */
+.final{padding:40px;border-radius:var(--r-panel)}
+.final .ph{aspect-ratio:1/1}
+.final .lead{margin:18px 0 28px}
+
+/* footer */
+footer{padding:72px 0 40px;border-top:1px solid var(--line);margin-top:40px}
+.foot{display:grid;grid-template-columns:1.3fr repeat(3,.6fr);gap:40px}
+.foot > div:first-child p{margin-top:18px;color:var(--muted);max-width:38ch;font-size:15px}
+.foot h4{margin:0 0 14px;font-size:14px;font-weight:600;color:var(--silver)}
+.foot ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.foot a{text-decoration:none;color:#c9cbd0;font-size:15px}
+.foot a:hover{color:#fff}
+.fine{margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);color:#7c7f87;font-size:13px}
+
+/* modal */
+.overlay{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px}
+.overlay[hidden]{display:none}
+.scrim{position:absolute;inset:0;background:rgba(5,6,8,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.modal{position:relative;width:min(460px,100%);max-height:calc(100vh - 32px);overflow:auto;padding:28px;border-radius:var(--r-panel);background:rgba(28,30,34,.72)}
+.m-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.m-head h2{font-size:22px;font-weight:600}
+.x{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--glass);font-size:16px}
+.m-item{display:flex;gap:14px;align-items:center;padding:14px;border-radius:var(--r-card);border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.m-item .ph{width:64px;height:64px;flex:none;border-radius:12px}
+.m-item .ph::before{font-size:11px}
+.m-item b{display:block;font-weight:600;font-size:15px;line-height:1.35}
+.m-item span{color:var(--muted);font-size:14px}
+.m-row{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.m-row > span{color:var(--silver);font-weight:500}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--glass)}
+.stepper button{width:44px;height:44px;border:0;background:none;font-size:20px;border-radius:50%}
+.stepper button:disabled{opacity:.35;cursor:default}
+.stepper output{min-width:28px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.m-total{font-family:var(--display);font-size:32px;font-variant-numeric:tabular-nums}
+.modal form .btn{margin-top:24px}
+.m-done{text-align:center;padding:12px 0 4px}
+.check{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:700;color:var(--green);background:rgba(132,195,24,.12);border:1px solid rgba(132,195,24,.4)}
+.m-done h2{font-size:26px;font-weight:600;margin-bottom:10px}
+.m-done p{color:#b7bac1;margin-bottom:24px}
+
+/* reveal (only hides when JS is running) */
+.js .reveal{opacity:0;translate:0 12px;transition:opacity .7s ease,translate .7s ease}
+.js .reveal.in{opacity:1;translate:0 0}
+
+@media (max-width:960px){
+  .split,.hero .split,.faq .split,.momentum{grid-template-columns:1fr;gap:40px}
+  .story .frame{position:static}
+  .grid3{grid-template-columns:1fr}
+  .pack.featured{top:0}
+  .foot{grid-template-columns:1fr 1fr}
+  .foot > div:first-child{grid-column:1/-1}
+  .section{padding:80px 0}
+  .momentum{margin-top:80px}
+  .hero .frame{max-width:520px}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .stats{padding:28px 16px}
+  .stats dl{grid-template-columns:1fr;gap:20px}
+  .stat + .stat{border-left:0;border-top:1px solid var(--line);padding-top:20px}
+  .specs{grid-template-columns:1fr 1fr}
+  .final{padding:20px}
+  .wm-coke{font-size:26px}.wm-mon{font-size:21px}
+  .qa .ans{padding-right:4px}
+  .actions .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  .js .reveal{opacity:1;translate:none}
+  .btn:hover,.card:hover,.play:hover .play-btn{transform:none}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<div class="nav-shell">
+  <nav class="nav glass" aria-label="Main">
+    <a class="wm" href="#top" aria-label="Coca-Cola × Monster, back to top">
+      <span class="wm-coke">Coca-Cola</span><span class="wm-x" aria-hidden="true">×</span>
+      <span class="wm-mon"><svg viewBox="0 0 24 30" aria-hidden="true"><path d="M2 1 5.6 2.4 4.9 8.6 6.2 9.8 5.3 16.4 6.6 17.6 5.5 26.5 3.6 20.8 4.4 19.3 2.6 13 3.8 11.6Z"/><path d="M9.4 0 13.2 1.6 12.4 8 13.8 9.3 12.8 16.6 14.2 18 13 29 11 22.4 11.9 20.8 10 13.8 11.3 12.2Z"/><path d="M17 1 20.6 2.4 19.9 8.6 21.2 9.8 20.3 16.4 21.6 17.6 20.5 26.5 18.6 20.8 19.4 19.3 17.6 13 18.8 11.6Z"/></svg>onster</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#story">The Collab</a></li>
+      <li><a href="#product">Product</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#packs">Packs</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <button class="btn btn-red btn-sm nav-cta" data-pack="12">Get the drop</button>
+    <button class="burger" aria-expanded="false" aria-controls="drawer" aria-label="Open menu"><span></span></button>
+  </nav>
+  <div id="drawer" class="drawer glass" hidden>
+    <a href="#story">The Collab</a>
+    <a href="#product">Product</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#packs">Packs</a>
+    <a href="#faq">FAQ</a>
+    <button class="btn btn-red btn-block" data-pack="12">Get the drop</button>
+  </div>
+</div>
+
+<main>
+  <!-- HERO -->
+  <section id="top" class="hero">
+    <div class="wrap split">
+      <div class="reveal">
+        <span class="pill glass">Limited collaboration · Available now</span>
+        <h1 class="display">Iconic taste.<span class="tint">Unleashed.</span></h1>
+        <p class="lead">The unmistakable refreshment of Coca-Cola meets the crisp, zero-sugar energy of Monster Ultra. One can. Two legends. An entirely new kind of charge.</p>
+        <div class="actions">
+          <button class="btn btn-red" data-pack="12">Secure the first drop</button>
+          <a class="btn btn-ghost" href="#product">Explore the can</a>
+        </div>
+        <ul class="chips">
+          <li>Zero sugar</li>
+          <li>150mg caffeine</li>
+          <li>Authentic collaboration</li>
+        </ul>
+      </div>
+      <div class="frame glass reveal">
+        <figure class="ph"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Ice-cold Coca-Cola and Monster collaboration can surrounded by ice" loading="lazy" width="800" height="1000"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="wrap">
+    <div class="stats glass reveal">
+      <p>Two category icons. One culture-shifting release.</p>
+      <dl>
+        <div class="stat"><dt>fans on the waitlist</dt><dd data-count="2.1" data-dec="1" data-suffix="M+">2.1M+</dd></div>
+        <div class="stat"><dt>early taster rating</dt><dd data-count="4.9" data-dec="1" data-suffix=" / 5">4.9 / 5</dd></div>
+        <div class="stat"><dt>first batch forecast</dt><dd data-count="48" data-dec="0" data-suffix=" hrs">48 hrs</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section id="story" class="section story">
+    <div class="wrap split">
+      <div>
+        <div class="reveal">
+          <span class="eyebrow">The impossible collab</span>
+          <h2 class="display">Familiar at first sip. Wild by the finish.</h2>
+          <p class="lead" style="margin-top:20px">We fused a century of cola craft with Monster’s unmistakable energy DNA—then stripped out the sugar. The result is smooth, bright, and engineered to keep up.</p>
+        </div>
+        <div class="features reveal">
+          <article class="card glass">
+            <h3>Classic cola core</h3>
+            <p>That signature caramel, citrus and spice profile—rebalanced for a clean, dry finish that never weighs you down.</p>
+          </article>
+          <article class="card glass">
+            <h3>Ultra energy blend</h3>
+            <p>150mg of caffeine plus B vitamins deliver a focused lift with the crisp refreshment Monster Ultra drinkers love.</p>
+          </article>
+          <article class="card glass">
+            <h3>Zero sugar. Full send.</h3>
+            <p>No sugar and only 15 calories per can. Big flavor and full intensity without the heavy sweetness.</p>
+          </article>
+        </div>
+      </div>
+      <div class="frame glass reveal">
+        <figure class="ph"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Close-up product view" loading="lazy" width="800" height="1000"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT -->
+  <section id="product" class="section product">
+    <div class="wrap">
+      <div class="split">
+        <div class="frame glass reveal">
+          <figure class="ph"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Coca-Cola x Monster can lifestyle product image" loading="lazy" width="800" height="1000"></figure>
+        </div>
+        <div class="reveal">
+          <span class="eyebrow g">Cold engineered</span>
+          <h2 class="display">Built to hit different.</h2>
+          <p class="lead" style="margin-top:20px">A taller, slimmer 16 oz can wrapped in red-to-silver frost. Designed to look as electric as it tastes—and stay ice cold through the last drop.</p>
+          <dl class="specs">
+            <div class="spec glass"><dt>Format</dt><dd>16 fl oz / 473 mL</dd></div>
+            <div class="spec glass"><dt>Caffeine</dt><dd>150mg per can</dd></div>
+            <div class="spec glass"><dt>Sugar</dt><dd>0g</dd></div>
+            <div class="spec glass"><dt>Calories</dt><dd>15</dd></div>
+          </dl>
+          <button class="btn btn-red" data-pack="12">Add a 12-pack · $29.99</button>
+        </div>
+      </div>
+
+      <div class="momentum">
+        <div class="reveal">
+          <span class="eyebrow g">Made for momentum</span>
+          <h3 class="display">Your next gear, in a can.</h3>
+          <p class="lead">From late-night sessions to early starts, it is balanced for the moments when great taste and sustained focus matter equally.</p>
+        </div>
+        <ol class="steps reveal">
+          <li><div><h4>Clean, confident lift</h4><p>A measured energy blend designed for a focused boost without overwhelming the flavor.</p></div></li>
+          <li><div><h4>Ice-cold refreshment</h4><p>Fine carbonation and a crisp Ultra finish make every sip feel freshly cracked.</p></div></li>
+          <li><div><h4>Made to share</h4><p>A limited-edition centerpiece for game nights, watch parties, studios and weekend runs.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="section">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow g">Early access reactions</span>
+        <h2 class="display">The verdict is in.</h2>
+        <p class="lead">We sent the first cold cans to creators, competitors, night owls and lifelong cola fans.</p>
+      </div>
+      <div class="grid3 reveal">
+        <figure class="review card glass" style="margin:0">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote>“It starts unmistakably Coke, then finishes bright and dry like an Ultra. I honestly didn’t expect the balance to work this well.”</blockquote>
+          <figcaption class="who"><span class="avatar" aria-hidden="true">JM</span><div><b>Jordan M.</b><span>Product designer · Austin</span></div></figcaption>
+        </figure>
+        <figure class="review card glass" style="margin:0">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote>“Finally, an energy drink I actually want with food. Cola depth, real carbonation and no syrupy aftertaste. The can looks unreal too.”</blockquote>
+          <figcaption class="who"><span class="avatar" aria-hidden="true">AR</span><div><b>Alex R.</b><span>Streamer · Los Angeles</span></div></figcaption>
+        </figure>
+        <figure class="review card glass" style="margin:0">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote>“This is the rare collab that tastes like both brands without compromising either one. It disappeared from our studio fridge.”</blockquote>
+          <figcaption class="who"><span class="avatar" aria-hidden="true">SK</span><div><b>Sam K.</b><span>Creative director · Brooklyn</span></div></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKS -->
+  <section id="packs" class="section packs">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Choose your charge</span>
+        <h2 class="display">Get in on the first drop.</h2>
+        <p class="lead">Limited launch inventory. Complimentary shipping on 24 cans or more.</p>
+      </div>
+      <div class="grid3 reveal">
+        <article class="pack glass">
+          <h3>Taster Pack</h3>
+          <p class="price"><b>$16.99</b><span>/ 6 cans</span></p>
+          <p>Your first taste of the collaboration.</p>
+          <ul><li>Six 16 oz cans</li><li>Recyclable cold-pack shipper</li><li>Digital launch artwork</li></ul>
+          <button class="btn btn-ghost btn-block" data-pack="6">Choose 6-pack</button>
+        </article>
+        <article class="pack glass featured">
+          <span class="tag">Most popular</span>
+          <h3>Launch Case</h3>
+          <p class="price"><b>$29.99</b><span>/ 12 cans</span></p>
+          <p>The essential case for your fridge and crew.</p>
+          <ul><li>Twelve 16 oz cans</li><li>Limited collab case design</li><li>First access to restocks</li></ul>
+          <button class="btn btn-red btn-block" data-pack="12">Choose 12-pack</button>
+        </article>
+        <article class="pack glass">
+          <h3>Stock Up</h3>
+          <p class="price"><b>$54.99</b><span>/ 24 cans</span></p>
+          <p>Maximum energy, best value per can.</p>
+          <ul><li>Twenty-four 16 oz cans</li><li>Complimentary shipping</li><li>Collector poster included</li></ul>
+          <button class="btn btn-ghost btn-block" data-pack="24">Choose 24-pack</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section faq">
+    <div class="wrap split">
+      <div class="section-head reveal" style="margin-bottom:0">
+        <span class="eyebrow g">Questions, answered</span>
+        <h2 class="display">Know before you crack it.</h2>
+        <p class="lead">Still curious? Our support crew is available through the contact link below.</p>
+      </div>
+      <div class="accordion reveal">
+        <div class="qa"><h3><button aria-expanded="false" aria-controls="a1">What does Coca-Cola × Monster taste like?</button></h3>
+          <div id="a1" class="ans" hidden><p>It opens with classic cola caramel and citrus notes, then transitions into a lighter, crisp Monster Ultra finish. It is less sweet than traditional cola and contains zero sugar.</p></div></div>
+        <div class="qa"><h3><button aria-expanded="false" aria-controls="a2">How much caffeine is in each can?</button></h3>
+          <div id="a2" class="ans" hidden><p>Each 16 fl oz can contains 150mg of caffeine. This product is intended for healthy adults and is not recommended for children, pregnant people, or anyone sensitive to caffeine.</p></div></div>
+        <div class="qa"><h3><button aria-expanded="false" aria-controls="a3">Is this a permanent flavor?</button></h3>
+          <div id="a3" class="ans" hidden><p>The initial release is a limited collaboration. Future availability will depend on demand, so we recommend securing the first drop while inventory is available.</p></div></div>
+        <div class="qa"><h3><button aria-expanded="false" aria-controls="a4">Where do you ship?</button></h3>
+          <div id="a4" class="ans" hidden><p>Launch orders ship within the contiguous United States. Additional regions and retail availability will be announced as the release expands.</p></div></div>
+        <div class="qa"><h3><button aria-expanded="false" aria-controls="a5">Can I recycle the packaging?</button></h3>
+          <div id="a5" class="ans" hidden><p>Yes. The aluminum cans are widely recyclable, and the launch case uses recyclable paper-based materials with minimal plastic.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEASER VIDEO -->
+  <section id="teaser" class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">The teaser</span>
+        <h2 class="display">Watch the drop.</h2>
+      </div>
+      <div class="video-frame glass reveal">
+        <!-- Put your teaser file in src. Nothing loads until the visitor clicks play. -->
+        <video src="" preload="none" playsinline aria-label="Coca-Cola × Monster teaser"></video>
+        <button class="play" type="button" aria-label="Play teaser video">
+          <figure class="ph"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Teaser video thumbnail" loading="lazy" width="1600" height="900"></figure>
+          <span class="play-btn glass" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="final glass split reveal">
+        <div>
+          <span class="eyebrow">Limited first release</span>
+          <h2 class="display">Two icons. One first sip.</h2>
+          <p class="lead">Be among the first to experience the collaboration nobody saw coming—and everybody will be talking about.</p>
+          <button class="btn btn-red" data-pack="12">Secure your launch case</button>
+        </div>
+        <figure class="ph"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Coca-Cola x Monster limited collaboration product" loading="lazy" width="900" height="900"></figure>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="wm" href="#top" aria-label="Coca-Cola × Monster, back to top">
+          <span class="wm-coke">Coca-Cola</span><span class="wm-x" aria-hidden="true">×</span>
+          <span class="wm-mon"><svg viewBox="0 0 24 30" aria-hidden="true"><path d="M2 1 5.6 2.4 4.9 8.6 6.2 9.8 5.3 16.4 6.6 17.6 5.5 26.5 3.6 20.8 4.4 19.3 2.6 13 3.8 11.6Z"/><path d="M9.4 0 13.2 1.6 12.4 8 13.8 9.3 12.8 16.6 14.2 18 13 29 11 22.4 11.9 20.8 10 13.8 11.3 12.2Z"/><path d="M17 1 20.6 2.4 19.9 8.6 21.2 9.8 20.3 16.4 21.6 17.6 20.5 26.5 18.6 20.8 19.4 19.3 17.6 13 18.8 11.6Z"/></svg>onster</span>
+        </a>
+        <p>Iconic cola refreshment meets zero-sugar energy in a limited collaboration built for momentum.</p>
+      </div>
+      <nav aria-label="Explore"><h4>Explore</h4><ul>
+        <li><a href="#story">The collaboration</a></li>
+        <li><a href="#product">Product details</a></li>
+        <li><a href="#packs">Shop packs</a></li>
+      </ul></nav>
+      <nav aria-label="Support"><h4>Support</h4><ul>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="mailto:support@example.com">Contact us</a></li>
+        <li><a href="#packs">Shipping</a></li>
+      </ul></nav>
+      <nav aria-label="Legal"><h4>Legal</h4><ul>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Accessibility</a></li>
+      </ul></nav>
+    </div>
+    <p class="fine">© 2025 Collaboration launch concept. All rights reserved. Consume responsibly. Not recommended for children or caffeine-sensitive individuals.</p>
+  </div>
+</footer>
+
+<!-- RESERVATION MODAL -->
+<div class="overlay" hidden>
+  <div class="scrim"></div>
+  <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <form class="m-order">
+      <div class="m-head">
+        <h2 id="m-title">Your launch order</h2>
+        <button type="button" class="x" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="m-item">
+        <figure class="ph"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" width="64" height="64"></figure>
+        <div><b id="m-name">Launch 12-Pack — Coca-Cola × Monster Zero Ultra</b><span id="m-unit">$29.99 each</span></div>
+      </div>
+      <div class="m-row">
+        <span id="qty-label">Quantity</span>
+        <div class="stepper" role="group" aria-labelledby="qty-label">
+          <button type="button" data-step="-1" aria-label="Decrease quantity">−</button>
+          <output id="m-qty" aria-live="polite">1</output>
+          <button type="button" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+      <div class="m-row">
+        <span>Total</span>
+        <output id="m-total" class="m-total" aria-live="polite">$29.99</output>
+      </div>
+      <button type="submit" class="btn btn-red btn-block">Reserve this drop</button>
+    </form>
+    <div class="m-done" hidden>
+      <div class="check" aria-hidden="true">✓</div>
+      <h2 id="m-done-title">You’re on the list.</h2>
+      <p>Your reservation has been received. Launch availability and checkout details will follow by email.</p>
+      <button type="button" class="btn btn-ghost btn-block" data-close>Continue exploring</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // mobile drawer
+  const burger = $('.burger'), drawer = $('#drawer');
+  const setDrawer = open => {
+    drawer.hidden = !open;
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  burger.addEventListener('click', () => setDrawer(drawer.hidden));
+  $$('a, button', drawer).forEach(el => el.addEventListener('click', () => setDrawer(false)));
+  matchMedia('(min-width: 861px)').addEventListener('change', e => e.matches && setDrawer(false));
+
+  // scroll reveal + count-up
+  const fmt = (n, el) => n.toFixed(+el.dataset.dec) + el.dataset.suffix;
+  const countUp = el => {
+    const end = +el.dataset.count, t0 = performance.now(), dur = 1400;
+    const tick = t => {
+      const p = Math.min(1, (t - t0) / dur);
+      el.textContent = fmt(end * (1 - Math.pow(1 - p, 3)), el);
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const counters = $$('[data-count]');
+  if (!reduced) counters.forEach(el => el.textContent = fmt(0, el));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      if (e.target.dataset.count) { if (!reduced) countUp(e.target); }
+      else e.target.classList.add('in');
+    }), { threshold: .15, rootMargin: '0px 0px -40px 0px' });
+    $$('.reveal').forEach(el => io.observe(el));
+    counters.forEach(el => io.observe(el));
+  } else {
+    $$('.reveal').forEach(el => el.classList.add('in'));
+    counters.forEach(el => el.textContent = fmt(+el.dataset.count, el));
+  }
+
+  // FAQ accordion
+  $$('.qa button').forEach(btn => btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', open);
+    $('#' + btn.getAttribute('aria-controls')).hidden = !open;
+  }));
+
+  // teaser video: nothing loads until the visitor clicks
+  const video = $('.video-frame video'), play = $('.play');
+  play.addEventListener('click', () => {
+    play.hidden = true;
+    video.controls = true;
+    video.play().catch(() => {}); // rejects while src is still empty; native controls stay visible
+    video.focus();
+  });
+
+  // reservation modal
+  const PACKS = {
+    6:  { name: 'Taster 6-Pack — Coca-Cola × Monster Zero Ultra', price: 16.99 },
+    12: { name: 'Launch 12-Pack — Coca-Cola × Monster Zero Ultra', price: 29.99 },
+    24: { name: 'Stock Up 24-Pack — Coca-Cola × Monster Zero Ultra', price: 54.99 },
+  };
+  const MAX_QTY = 10;
+  const usd = n => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  const total = (pack, qty) => usd(Math.round(PACKS[pack].price * qty * 100) / 100);
+  const clampQty = (q, d) => Math.min(MAX_QTY, Math.max(1, q + d));
+
+  const overlay = $('.overlay'), modal = $('.modal'), form = $('.m-order'), done = $('.m-done');
+  let pack = 12, qty = 1, opener = null;
+
+  const render = () => {
+    $('#m-name').textContent = PACKS[pack].name;
+    $('#m-unit').textContent = usd(PACKS[pack].price) + ' each';
+    $('#m-qty').textContent = qty;
+    $('#m-total').textContent = total(pack, qty);
+    $('[data-step="-1"]').disabled = qty <= 1;
+    $('[data-step="1"]').disabled = qty >= MAX_QTY;
+  };
+  const showDone = on => {
+    form.hidden = on;
+    done.hidden = !on;
+    modal.setAttribute('aria-labelledby', on ? 'm-done-title' : 'm-title');
+  };
+  const openModal = (p, from) => {
+    pack = PACKS[p] ? +p : 12;
+    qty = 1;
+    opener = from;
+    showDone(false);
+    render();
+    overlay.hidden = false;
+    document.body.classList.add('modal-open');
+    $('.x').focus();
+  };
+  const closeModal = () => {
+    overlay.hidden = true;
+    document.body.classList.remove('modal-open');
+    if (opener) opener.focus();
+  };
+
+  $$('[data-pack]').forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.pack, btn)));
+  $$('[data-close]', modal).forEach(btn => btn.addEventListener('click', closeModal));
+  $('.scrim').addEventListener('click', closeModal);
+  $$('[data-step]').forEach(btn => btn.addEventListener('click', () => {
+    qty = clampQty(qty, +btn.dataset.step);
+    render();
+  }));
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    showDone(true);
+    $('button', done).focus();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (!overlay.hidden) closeModal();
+      else if (!drawer.hidden) { setDrawer(false); burger.focus(); }
+      return;
+    }
+    if (e.key !== 'Tab' || overlay.hidden) return;
+    // keep focus inside the open dialog
+    const f = $$('button:not(:disabled), [href], input, [tabindex]:not([tabindex="-1"])', modal)
+      .filter(el => el.offsetParent !== null);
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  // self-check for the money logic
+  console.assert(total(24, 2) === '$109.98', 'total 24×2');
+  console.assert(total(6, 3) === '$50.97', 'total 6×3');
+  console.assert(clampQty(1, -1) === 1 && clampQty(MAX_QTY, 1) === MAX_QTY, 'qty clamp');
+})();
+</script>
+</body>
+</html>
